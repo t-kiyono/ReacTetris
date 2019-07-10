@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import * as Actions from '../actions';
-import { State } from '../store';
-import { Store } from 'redux';
+import { useDispatch } from 'react-redux';
+import Actions from '../store/actions';
 
-const KeyHandler: React.FC = (props: Store<State>) => {
+interface ownProps {
+  captureKeys: Array<number>;
+}
+
+const KeyHandler: React.FC<ownProps> = props => {
+  const dispatch = useDispatch();
   const handleKeyDown = (event: KeyboardEvent) => {
     if (props.captureKeys.includes(event.keyCode)) {
-      props.dispatch(Actions.uiKeyDown(event.keyCode));
+      dispatch(Actions.uiKeyDown(event.keyCode));
     }
   }
 
@@ -21,4 +24,4 @@ const KeyHandler: React.FC = (props: Store<State>) => {
   );
 };
 
-export default connect()(KeyHandler);
+export default KeyHandler;

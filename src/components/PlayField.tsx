@@ -1,0 +1,81 @@
+import React from 'react';
+import { useSelector } from 'react-redux';
+import * as Board from '../game/borad';
+import { AppState } from '../store/state';
+
+const PlayField: React.FC<any> = () => {
+  const board = useSelector((state: AppState) => state.main.currentPiece 
+                                                 ? state.main.currentPiece.setTo(state.main.board)
+                                                 : state.main.board);
+  return (
+    <div>
+      <style>
+        {`
+          .board {
+            height: 14px;
+          }
+          .empty {
+            box-sizing: border-box;
+            display: inline-block;
+            background-color: #eeeeff;
+            height: 14px;
+            width: 14px;
+            border-left: 1px solid #9999ff;
+            border-top: 1px solid #9999ff;
+          }
+          .wall {
+            box-sizing: border-box;
+            display: inline-block;
+            height: 14px;
+            width: 14px;
+            background-color: brown;
+            border: 3px outset brown;
+          }
+          .block {
+            box-sizing: border-box;
+            display: inline-block;
+            height: 14px;
+            width: 14px;
+            border: 2px outset;
+          }
+          .block1 {
+            background-color: red;
+          }
+          .block2 {
+            background-color: blue;
+          }
+          .block3 {
+            background-color: orange;
+          }
+          .block4 {
+            background-color: yellow;
+          }
+          .block5 {
+            background-color: cyan;
+          }
+          .block6 {
+            background-color: magenta;
+          }
+          .block7 {
+            background-color: green;
+          }
+        `}
+      </style>
+      {board &&
+        board.slice(1).map((row: any, y: any) => (
+          <div className="board" key={`${y}`}>
+            {row.map((cell: any, x: any) => {
+              if (cell === 0) {
+                return <span key={`${y}${x}`} className="empty" />;
+              } else if (cell === Board.W) {
+                return <span key={`${y}${x}`} className="wall" />;
+              }
+              return <span key={`${y}${x}`} className={`block block${cell}`} />;
+            })}
+          </div>
+        ))}
+    </div>
+  );
+}
+
+export default PlayField;
