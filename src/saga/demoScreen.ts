@@ -2,7 +2,11 @@ import { put, take, race } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 import Actions from '../store/actions';
 import * as Keys from '../game/keys';
-import { gameOver } from './game';
+import { showModal } from './showModal';
+
+function* gameOver() {
+  yield* showModal({ title: 'GAME OVER' });
+}
 
 export function* demoScreen() {
   yield put(push('/'));

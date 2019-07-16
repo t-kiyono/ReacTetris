@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import * as Board from '../game/borad';
+import * as Board from '../game/board';
 import { AppState } from '../store/state';
 
 const PlayField: React.FC<any> = () => {

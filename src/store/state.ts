@@ -1,22 +1,24 @@
-import * as Board from '../game/borad';
+import * as Board from '../game/board';
 
 export interface AppState {
   main: MainState;
   router: any;
 }
 
+export interface Modal {
+    show: boolean;
+    okButtonText?: string;
+    cancelButtonText?: string;
+    cancelable?: boolean;
+    title?: string;
+    content?: string;
+}
+
 export interface MainState {
   board: Board.Type;
   currentPiece?: any;
   gameRunning?: boolean;
-  modal: {
-    show: boolean;
-    okButtonText: string;
-    cancelButtonText: string;
-    cancelable?: boolean;
-    title?: string;
-    content?: string;
-  },
+  modal: Modal;
   score: number;
   highScore: number;
 }

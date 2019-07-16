@@ -1,6 +1,6 @@
 import * as pieceUtils from './pieceUtils';
 import * as Keys from './keys';
-import * as Board from './borad';
+import * as Board from './board';
 
 export default class Piece {
   private x: number;

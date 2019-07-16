@@ -4,17 +4,13 @@ import { showModal } from './showModal';
 import Actions from '../store/actions';
 import * as Config from '../game/config';
 import * as Keys from '../game/keys';
-import * as Board from '../game/borad';
+import * as Board from '../game/board';
 import Piece from '../game/Piece';
 import Store from '../store';
 
 const SLACK_TIME = 30;
 
-export function* gameOver() {
-  yield* showModal({ title: 'GAME OVER' });
-}
-
-export function* gameQuit() {
+function* gameQuit() {
   const answer = yield* showModal({
     title: 'QUIT THE GAME?',
     cancelable: true,
@@ -27,11 +23,11 @@ export function* gameQuit() {
   }
 }
 
-export function* gamePause() {
+function* gamePause() {
   yield* showModal({ title: 'PAUSE' });
 }
 
-export function* slackTimeChecker() {
+function* slackTimeChecker() {
   let slackTime = SLACK_TIME;
   while (true) {
     const { keyDown, timeTick } = yield race({
@@ -51,7 +47,7 @@ export function* slackTimeChecker() {
   }
 }
 
-export function* pieceFall() {
+function* pieceFall() {
   let piece = new Piece(3, 1, Math.floor(Math.random() * 7), 0);
   let board = yield select(state => state.main.board);
   if (!piece.canPut(board)) {

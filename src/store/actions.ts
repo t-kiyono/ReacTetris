@@ -1,5 +1,6 @@
 import actionCreatorFactory from 'typescript-fsa';
-import * as Board from '../game/borad';
+import * as Board from '../game/board';
+import { Modal } from '../store/state';
 
 const actionCreator = actionCreatorFactory();
 
@@ -25,9 +26,9 @@ export default {
   updateCell: actionCreator<UpdateCellPaylod>('UPDATE_CELL'),
   setBoard: actionCreator<Board.Type>('SET_BOARD'),
   setCurrentPiece: actionCreator<any>('SET_CURRENT_PIECE'),
-  setGameRunning: actionCreator<any>('SET_GAME_RUNNING'),
-  setGamePausing: actionCreator<any>('SET_GAME_PAUSING'),
-  setModal: actionCreator<any>('SET_MODAL'),
-  setScore: actionCreator<any>('SET_SCORE'),
-  addScore: actionCreator<any>('ADD_SCORE'),
+  setGameRunning: actionCreator<boolean>('SET_GAME_RUNNING'),
+  setGamePausing: actionCreator<boolean>('SET_GAME_PAUSING'),
+  setModal: actionCreator<Modal>('SET_MODAL'),
+  setScore: actionCreator<number>('SET_SCORE'),
+  addScore: actionCreator<number>('ADD_SCORE'),
 }

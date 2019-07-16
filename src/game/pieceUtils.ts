@@ -1,4 +1,4 @@
-import * as Board from './borad';
+import * as Board from './board';
 
 const PIECES = [
   [

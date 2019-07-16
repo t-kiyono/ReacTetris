@@ -2,12 +2,7 @@ import { put, race, take } from 'redux-saga/effects';
 import Actions from '../store/actions';
 import * as Keys from '../game/keys';
 
-interface ShowModal {
-  title: string,
-  cancelable?: boolean;
-};
-
-export function* showModal({ title, cancelable = false }: ShowModal) {
+export function* showModal({ title, cancelable = false }: { title: string, cancelable?: boolean}) {
   yield put(Actions.setModal({ show: true, title, cancelable }));
   let answer;
   do {

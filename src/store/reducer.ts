@@ -1,7 +1,7 @@
 import { reducerWithInitialState } from 'typescript-fsa-reducers';
 import { initialState } from './state';
 import Actions from './actions';
-import * as Board from '../game/borad';
+import * as Board from '../game/board';
 
 export default reducerWithInitialState(initialState)
   .case(Actions.uiButtonClicked, (state) => {
