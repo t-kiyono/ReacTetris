@@ -1,33 +1,26 @@
 import actionCreatorFactory from 'typescript-fsa';
-import * as Board from '../game/board';
-import { Modal } from '../store/state';
+import { Modal } from '../reducers';
+import Board from '../game/Board';
+import Mino from '../game/Mino';
 
 const actionCreator = actionCreatorFactory();
 
-interface UpdateCellPaylod {
-  x: number;
-  y: number;
-  cell: number;
-}
-
 export default {
-  uiButtonClicked: actionCreator<any>('UI_BUTTON_CLICKED'),
   uiKeyDown: actionCreator<number>('UI_KEY_DOWN'),
-  uiModalOpen: actionCreator<any>('UI_MODAL_OPEN'),
+  uiModalOpen: actionCreator<Modal>('UI_MODAL_OPEN'),
   uiModalOk: actionCreator('UI_MODAL_OK'),
   uiModalCancel: actionCreator('UI_MODAL_CANCEL'),
 
   sysTimeTick: actionCreator<number>('SYS_TIME_TICK'),
+  sysReachBottom: actionCreator('SYS_REACH_BOTTOM'),
+  sysStickBottom: actionCreator('SYS_STICK_BOTTOM'),
   sysGameStart: actionCreator('SYS_GAME_START'),
   sysGameQuit: actionCreator('SYS_GAME_QUIT'),
   sysGameOver: actionCreator('SYS_GAME_OVER'),
-  sysFixDownPiece: actionCreator('SYS_FIX_DOWN_PIECE'),
 
-  updateCell: actionCreator<UpdateCellPaylod>('UPDATE_CELL'),
-  setBoard: actionCreator<Board.Type>('SET_BOARD'),
-  setCurrentPiece: actionCreator<any>('SET_CURRENT_PIECE'),
+  setBoard: actionCreator<Board>('SET_BOARD'),
+  setMino: actionCreator<Mino>('SET_MINO'),
   setGameRunning: actionCreator<boolean>('SET_GAME_RUNNING'),
-  setGamePausing: actionCreator<boolean>('SET_GAME_PAUSING'),
   setModal: actionCreator<Modal>('SET_MODAL'),
   setScore: actionCreator<number>('SET_SCORE'),
   addScore: actionCreator<number>('ADD_SCORE'),
