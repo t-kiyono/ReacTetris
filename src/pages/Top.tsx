@@ -1,38 +1,22 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import Layout from '../components/Layout';
-import KeyHandler from '../components/KeyHandler';
-import * as Keys from '../game/keys';
-import { AppState } from '../store/state';
+import styled from '@emotion/styled';
+
+const Title = styled('h1')({
+  size: '72pt',
+});
+
+const Content = styled('div')({
+  padding: '1em',
+})
 
 const Top: React.FC = () => {
-  const highScore = useSelector((state: AppState) => state.main.highScore);
   return (
-    <Layout>
-      <style>
-        {`
-          .container {
-            display: flex;
-            flex-flow: column nowrap;
-          }
-          .content {
-            flex-grow: 1;
-            padding: 1em;
-          }
-          .h1 {
-            size: 72pt;
-          }
-        `}
-      </style>
-      <div className="container">
-        <KeyHandler captureKeys={Keys.ALL} />
-        <div className="content">
-          <h1>ReacTetris</h1>
-        </div>
-        <div className="content">HIGHSCORE {highScore}</div>
-        <div className="content">(S) to start</div>
-      </div>
-    </Layout>
+    <div>
+      <Content>
+        <Title>ReacTetris</Title>
+      </Content>
+      <Content>press (s) key to start game</Content>
+    </div>
   );
 }
 

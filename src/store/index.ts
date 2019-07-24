@@ -3,7 +3,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import createSagaMiddleware from 'redux-saga';
-import reducer from './reducer';
+import reducer, { MainState } from '../reducers';
 import rootSaga from '../saga';
 
 export const history = createBrowserHistory();
@@ -17,5 +17,10 @@ const store: Store = createStore(
 );
 
 sagaMiddleware.run(rootSaga);
+
+export interface AppState {
+  main: MainState;
+  router: any;
+}
 
 export default store;

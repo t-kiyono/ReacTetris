@@ -1,9 +1,10 @@
 import { put, race, take } from 'redux-saga/effects';
-import Actions from '../store/actions';
+import Actions from '../actions';
 import * as Keys from '../game/keys';
 
-export function* showModal({ title, cancelable = false }: { title: string, cancelable?: boolean}) {
+export function* showModal({ title = "notification", cancelable = false }) {
   yield put(Actions.setModal({ show: true, title, cancelable }));
+  yield put(Actions.setGameRunning(false));
   let answer;
   do {
     answer = yield race({
@@ -17,6 +18,7 @@ export function* showModal({ title, cancelable = false }: { title: string, cance
     !(answer.keyDown && answer.keyDown.payload === Keys.KEY_ENTER) &&
     !(answer.keyDown && answer.keyDown.payload === Keys.KEY_ESC)
   );
+  yield put(Actions.setGameRunning(true));
   yield put(Actions.setModal({ show: false }));
   return answer;
 }

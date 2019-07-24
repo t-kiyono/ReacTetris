@@ -4,12 +4,15 @@ import { Provider } from 'react-redux';
 
 import store, { history } from './store';
 import App from './App';
+import { Global } from '@emotion/core';
+import globalStyle from './globalStyle';
 
 ReactDOM.render(
-  <Provider store={store}>
-    <div>
+  <>
+    <Global styles={globalStyle} />
+    <Provider store={store}>
       <App history={history} />
-    </div>
-  </Provider>,
+    </Provider>
+  </>,
   document.getElementById('root')
 );
