@@ -34,6 +34,7 @@ function drawBlock(ctx: CanvasRenderingContext2D, x: number, y: number) {
 
 const GameCanvas = styled('canvas')({
   margin: 'auto',
+  marginTop: '8px',
   border: '1px solid black',
 });
 

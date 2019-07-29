@@ -55,8 +55,8 @@ const Layout: React.FC = props => {
       </Header>
       <Main>
         {props.children}
+        <Help />
       </Main>
-      <Help />
     </Container>
   )
 }

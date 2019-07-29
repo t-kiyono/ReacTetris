@@ -17,8 +17,11 @@ const Key = styled('kbd')({
 });
 
 const Dl = styled('dl')({
-  width: '300px',
-  margin: 'auto',
+  position: 'absolute',
+  left: 0,
+  '@media(max-width: 800px)': {
+    display: 'none',
+  }
 });
 
 const Dt = styled('dt')({
