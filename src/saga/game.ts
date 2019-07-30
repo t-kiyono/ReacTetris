@@ -10,26 +10,6 @@ import Mino from '../game/Mino';
 
 const SLACK_TIME = 30;
 
-function* slackTimeChecker() {
-  let slackTime = SLACK_TIME;
-  while (true) {
-    const { keyDown, timeTick } = yield race({
-      keyDown: take(Actions.uiKeyDown),
-      timeTick: take(Actions.sysTimeTick),
-    });
-    if (
-      slackTime === 0 ||
-      (keyDown && keyDown.payload === Keys.KEY_ARROW_DOWN)
-    ) {
-      yield put(Actions.sysStickBottom());
-      break;
-    }
-    if (timeTick) {
-      slackTime -= 1;
-    }
-  }
-}
-
 function* timer() {
   let stcTask;
   while (true) {
@@ -53,87 +33,24 @@ function* timer() {
   }
 }
 
-function* keyHandler() {
-  while(true) {
-    const keyDown = yield take(Actions.uiKeyDown);
-    const key = keyDown.payload;
-
-    switch (key) {
-      case Keys.KEY_ARROW_DOWN:
-        yield* fallDown();
-        break;
-      case Keys.KEY_ARROW_LEFT:
-        yield* moveLeft();
-        break;
-      case Keys.KEY_ARROW_RIGHT:
-        yield* moveRight();
-        break;
-      case Keys.KEY_ARROW_UP:
-        yield* rotate();
-        break;
-      case Keys.KEY_Q:
-        yield* gameQuit();
-        break;
-      case Keys.KEY_P:
-        yield* gamePause();
-        break;
+function* slackTimeChecker() {
+  let slackTime = SLACK_TIME;
+  while (true) {
+    const { keyDown, timeTick } = yield race({
+      keyDown: take(Actions.uiKeyDown),
+      timeTick: take(Actions.sysTimeTick),
+    });
+    if (
+      slackTime === 0 ||
+      (keyDown && keyDown.payload === Keys.KEY_ARROW_DOWN)
+    ) {
+      yield put(Actions.sysStickBottom());
+      break;
+    }
+    if (timeTick) {
+      slackTime -= 1;
     }
   }
-}
-
-function* fallDown() {
-  const state: MainState = yield select((state: AppState) => state.main);
-  const { mino, board } = state;
-
-  if (mino && mino.move(board, 0, 1)) {
-    yield put(Actions.setMino(mino));
-    yield put(Actions.addScore(1));
-  }
-}
-
-function* moveLeft() {
-  const state: MainState = yield select((state: AppState) => state.main);
-  const { mino, board } = state;
-
-  if (mino && mino.move(board, -1, 0)) {
-    yield put(Actions.setMino(mino));
-  }
-}
-
-function* moveRight() {
-  const state: MainState = yield select((state: AppState) => state.main);
-  const { mino, board } = state;
-
-  if (mino && mino.move(board, 1, 0)) {
-    yield put(Actions.setMino(mino));
-  }
-}
-
-function* rotate() {
-  const state: MainState = yield select((state: AppState) => state.main);
-  const { mino, board } = state;
-
-  if (mino) {
-    mino.rotate(board);
-    yield put(Actions.setMino(mino));
-  }
-}
-
-function* gameQuit() {
-  const answer = yield* showModal({
-    title: 'QUIT THE GAME?',
-    cancelable: true,
-  });
-  if (
-    answer.ok ||
-    (answer.keyDown && answer.keyDown.payload === Keys.KEY_ENTER)
-  ) {
-    yield put(Actions.sysGameQuit());
-  }
-}
-
-function* gamePause() {
-  yield* showModal({ title: 'PAUSE' });
 }
 
 function* newMino() {
@@ -159,6 +76,77 @@ function* stickBottom() {
   }
 }
 
+export function* fallDown() {
+  const state: MainState = yield select((state: AppState) => state.main);
+  const { gameRunning, mino, board } = state;
+
+  if (gameRunning && mino && mino.move(board, 0, 1)) {
+    yield put(Actions.setMino(mino));
+    yield put(Actions.addScore(1));
+  }
+}
+
+export function* moveLeft() {
+  const state: MainState = yield select((state: AppState) => state.main);
+  const { gameRunning, mino, board } = state;
+
+  if (gameRunning && mino && mino.move(board, -1, 0)) {
+    yield put(Actions.setMino(mino));
+  }
+}
+
+export function* moveRight() {
+  const state: MainState = yield select((state: AppState) => state.main);
+  const { gameRunning, mino, board } = state;
+
+  if (gameRunning && mino && mino.move(board, 1, 0)) {
+    yield put(Actions.setMino(mino));
+  }
+}
+
+export function* rotate() {
+  const state: MainState = yield select((state: AppState) => state.main);
+  const { gameRunning, mino, board } = state;
+
+  if (gameRunning && mino) {
+    mino.rotate(board);
+    yield put(Actions.setMino(mino));
+  }
+}
+
+export function* gameQuit() {
+  const state: MainState = yield select((state: AppState) => state.main);
+  const { gameRunning } = state;
+
+  if (gameRunning) {
+    const answer = yield* showModal({
+      show: true,
+      title: 'QUIT THE GAME?',
+      cancelable: true,
+    });
+    if (
+      answer.ok ||
+      (answer.keyDown && answer.keyDown.payload === Keys.KEY_ENTER)
+    ) {
+      yield put(Actions.sysGameQuit());
+    }
+  }
+}
+
+export function* gamePause() {
+  const state: MainState = yield select((state: AppState) => state.main);
+  const { gameRunning } = state;
+
+  if (gameRunning) {
+    yield* showModal({ show: true, title: 'PAUSE' });
+  }
+}
+
+export function* gameOver() {
+  yield* showModal({ show: true, title: 'GAME OVER' });
+}
+
+
 export function* game() {
   yield put(Actions.setBoard(Config.INITIAL_BOARD));
 
@@ -174,7 +162,6 @@ export function* game() {
 
     yield fork(timer);
     yield fork(fallDown);
-    yield fork(keyHandler);
     while (yield select(state => state.main.gameRunning)) {
       yield* newMino();
       yield* stickBottom();

@@ -16,37 +16,23 @@ const Key = styled('kbd')({
 	display: 'inline-block',
 });
 
-const Dl = styled('dl')({
-  position: 'absolute',
-  left: 0,
-  '@media(max-width: 800px)': {
-    display: 'none',
-  }
-});
-
-const Dt = styled('dt')({
+const Container = styled('div')({
   marginTop: '8px',
-})
-
-const Dd = styled('dd')({
   textAlign: 'left',
-});
+})
 
 const Operation: React.FC = () => {
   return (
-    <Dl>
-      <Dt>Help</Dt>
-      <Dd>
-        <ul>
-          <li><Key>↑</Key> rotate</li>
-          <li><Key>←</Key> move to left</li>
-          <li><Key>→</Key> move to right</li>
-          <li><Key>↓</Key> drop</li>
-          <li><Key>p</Key> pause</li>
-          <li><Key>q</Key> quit</li>
-        </ul>
-      </Dd>
-    </Dl>
+    <Container>
+      <ul>
+        <li><Key>↑</Key> rotate</li>
+        <li><Key>←</Key> move to left</li>
+        <li><Key>→</Key> move to right</li>
+        <li><Key>↓</Key> drop</li>
+        <li><Key>p</Key> pause</li>
+        <li><Key>q</Key> quit</li>
+      </ul>
+    </Container>
   );
 };
 

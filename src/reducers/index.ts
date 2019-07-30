@@ -10,7 +10,7 @@ export interface Modal {
   okButtonText?: string;
   cancelButtonText?: string;
   title?: string;
-  content?: string;
+  content?: any;
 }
 
 export interface MainState {

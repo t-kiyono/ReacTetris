@@ -2,15 +2,12 @@ import { cancel, fork, put, race, take } from 'redux-saga/effects';
 import { push } from 'connected-react-router';
 
 import Actions from '../actions';
-import { game } from './game';
+import { game, gameOver } from './game';
 import * as Keys from '../game/keys';
-import { showModal } from './showModal';
-
-function* gameOver() {
-  yield* showModal({ title: 'GAME OVER' });
-}
+import { uiHandler } from './uiHandler';
 
 export default function* rootSaga() {
+  yield fork(uiHandler);
   while (true) {
     yield put(push('/'));
     yield put(Actions.setScore(0));

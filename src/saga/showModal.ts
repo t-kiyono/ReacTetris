@@ -1,9 +1,10 @@
 import { put, race, take } from 'redux-saga/effects';
 import Actions from '../actions';
 import * as Keys from '../game/keys';
+import { Modal } from '../reducers';
 
-export function* showModal({ title = "notification", cancelable = false }) {
-  yield put(Actions.setModal({ show: true, title, cancelable }));
+export function* showModal(modal: Modal) {
+  yield put(Actions.setModal(modal));
   yield put(Actions.setGameRunning(false));
   let answer;
   do {

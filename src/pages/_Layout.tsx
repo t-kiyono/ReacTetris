@@ -24,6 +24,22 @@ const Main = styled('div')({
   alignItems: 'center',
 });
 
+const HelpContainer = styled('div')({
+  position: 'absolute',
+  left: 0,
+  '@media(max-width: 800px)': {
+    display: 'none',
+  }
+});
+
+const HelpLink = styled('span')({
+  cursor: 'pointer',
+  color: 'blue',
+  '@media(min-width: 800px)': {
+    display: 'none',
+  }
+});
+
 const Layout: React.FC = props => {
   const dispatch = useDispatch();
   const [modal, score, highScore] = useSelector((state: AppState) => [state.main.modal, state.main.score, state.main.highScore]);
@@ -35,6 +51,12 @@ const Layout: React.FC = props => {
   } = modal;
   const onOk = () => dispatch(Actions.uiModalOk());
   const onCancel = cancelable ? () => dispatch(Actions.uiModalCancel()) : undefined;
+
+  const handleClickHelpLink = () => dispatch(Actions.uiModalOpen({
+    show: true,
+    title: 'Help',
+    content: Help(props),
+  }));
 
   return (
     <Container>
@@ -50,12 +72,18 @@ const Layout: React.FC = props => {
           Score: {score}
         </div>
         <div>
+          <HelpLink onClick={handleClickHelpLink}>Help</HelpLink>
+        </div>
+        <div>
           HighScore: {highScore}
         </div>
       </Header>
       <Main>
         {props.children}
-        <Help />
+        <HelpContainer>
+          <h4>Help</h4>
+          <Help />
+        </HelpContainer>
       </Main>
     </Container>
   )
