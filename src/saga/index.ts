@@ -24,10 +24,10 @@ export default function* rootSaga() {
       quit: take(Actions.sysGameQuit)
     });
     yield cancel(gameTask);
-    yield put(Actions.setGameRunning(false));
     if (gameResult.over) {
       // ゲームオーバー画面（確認ダイアログ）表示
       yield* gameOver();
     }
+    yield put(Actions.setGameRunning(false));
   }
 }
