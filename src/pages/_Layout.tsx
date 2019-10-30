@@ -42,7 +42,7 @@ const HelpLink = styled('span')({
 
 const Layout: React.FC = props => {
   const dispatch = useDispatch();
-  const [modal, score, highScore] = useSelector((state: AppState) => [state.main.modal, state.main.score, state.main.highScore]);
+  const [modal, score, highScore, level] = useSelector((state: AppState) => [state.main.modal, state.main.score, state.main.highScore, state.main.level]);
   const {
     title = 'notification',
     okButtonText = 'OK',
@@ -68,8 +68,9 @@ const Layout: React.FC = props => {
         </Modal>
       )}
       <Header>
-        <div>
-          Score: {score}
+        <div style={{textAlign: 'left'}}>
+          <div>Score: {score}</div>
+          <div>Level: {level}</div>
         </div>
         <div>
           <HelpLink onClick={handleClickHelpLink}>Help</HelpLink>

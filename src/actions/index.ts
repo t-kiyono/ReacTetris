@@ -24,4 +24,6 @@ export default {
   setModal: actionCreator<Modal>('SET_MODAL'),
   setScore: actionCreator<number>('SET_SCORE'),
   addScore: actionCreator<number>('ADD_SCORE'),
+  setLevel: actionCreator<number>('SET_LEVEL'),
+  setGameSpeed: actionCreator<number>('SET_GAME_SPEED'),
 }

@@ -62,7 +62,7 @@ function* stickBottom() {
   yield take(Actions.sysStickBottom);
 
   const state: MainState = yield select((state: AppState) => state.main);
-  const { mino, board } = state;
+  const { mino, board, score } = state;
 
   if (mino) {
     const [newBoard, cleardLines] =  board.update(mino);
@@ -73,6 +73,17 @@ function* stickBottom() {
     }
     yield put(Actions.setBoard(newBoard));
     yield put(Actions.addScore(Config.LINES_SCORE[cleardLines]));
+
+    const newScore = score + Config.LINES_SCORE[cleardLines];
+    const newLevel = 1 + Math.floor(newScore / 1000);
+
+    const coefficient = 2;
+    if (newLevel * coefficient < 60) {
+      const newGameSpeed = 60 - newLevel * coefficient;
+
+      yield put(Actions.setLevel(newLevel));
+      yield put(Actions.setGameSpeed(newGameSpeed));
+    }
   }
 }
 
@@ -145,7 +156,6 @@ export function* gamePause() {
 export function* gameOver() {
   yield* showModal({ show: true, title: 'GAME OVER' });
 }
-
 
 export function* game() {
   yield put(Actions.setBoard(Config.INITIAL_BOARD));

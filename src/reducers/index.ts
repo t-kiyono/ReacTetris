@@ -21,6 +21,7 @@ export interface MainState {
   gameSpeed: number;
   score: number;
   highScore: number;
+  level: number;
 }
 
 const initialState: MainState = {
@@ -34,7 +35,8 @@ const initialState: MainState = {
   gameRunning: false,
   gameSpeed: 60,
   score: 0,
-  highScore: 0
+  highScore: 0,
+  level: 1
 };
 
 export default reducerWithInitialState(initialState)
@@ -49,12 +51,6 @@ export default reducerWithInitialState(initialState)
     return {
       ...state,
       mino: payload
-    };
-  })
-  .case(Actions.setGameRunning, (state, payload) => {
-    return {
-      ...state,
-      gameRunning: payload
     };
   })
   .case(Actions.setModal, (state, payload) => {
@@ -77,4 +73,23 @@ export default reducerWithInitialState(initialState)
       score,
       highScore: Math.max(score, state.highScore)
     };
-  });
+  })
+  .case(Actions.setLevel, (state, payload) => {
+    return {
+      ...state,
+      level: payload
+    }
+  })
+  .case(Actions.setGameSpeed, (state, payload) => {
+    return {
+      ...state,
+      gameSpeed: payload
+    }
+  })
+  .case(Actions.setGameRunning, (state, payload) => {
+    return {
+      ...state,
+      gameRunning: payload
+    };
+  })
+  ;
